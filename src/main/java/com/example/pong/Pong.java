@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -21,7 +22,8 @@ import java.io.IOException;
 
 public class Pong extends Application {
 
-    private  Circle pelota;
+    @FXML
+    private Circle ball;
 
     private int velX = 1;
     private int velY = 1;

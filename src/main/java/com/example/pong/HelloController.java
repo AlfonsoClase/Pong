@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -18,8 +19,6 @@ public class HelloController {
     @FXML
     public void initialize() {
 
-        ball.setCenterX(ball.getCenterX() + 130);
-        ball.setCenterY(ball.getCenterY() + 130);
         ball.sceneProperty().addListener((observableValue, scene, t1) -> t1.setOnKeyPressed(keyEvent ->
         {
 
