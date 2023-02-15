@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 public class HelloController {
@@ -21,6 +22,7 @@ public class HelloController {
     private Circle ball;
 
     private int centro = 0;
+    private int velBola = 2;
 
     @FXML
     public void initialize() {
@@ -57,7 +59,17 @@ public class HelloController {
         Timeline animationBall = new Timeline(
                 new KeyFrame(Duration.seconds(0.017), (ActionEvent ae) -> {
                     ball.setCenterX(centro);
-                    centro++;
+                    Shape colisionI = Shape.intersect(ball, racquet1);
+                    Shape colisionD = Shape.intersect(ball,racquet2);
+                    boolean colisionIzquierda = colisionI.getBoundsInLocal().isEmpty();
+                    boolean colisionDerecha = colisionD.getBoundsInLocal().isEmpty();
+
+                    if (colisionIzquierda == false){
+                        velBola = 3;
+                    } else if (colisionDerecha == false){
+                        velBola = -3;
+                    }
+                    centro += velBola;
                 })
         );
         animationBall.setCycleCount(Timeline.INDEFINITE);
