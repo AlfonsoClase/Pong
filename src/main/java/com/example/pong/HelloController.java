@@ -21,16 +21,19 @@ public class HelloController {
     @FXML
     private Circle ball;
 
-    private int centro = 0;
-    private int velBola = 2;
+    private int centroX = 0;
+    private int centroY = 0;
+
+    private int velBolaX = 2;
+    private int velBolaY = 2;
+
 
     @FXML
     public void initialize() {
 
-
         ball.sceneProperty().addListener((observableValue, scene, t1) -> t1.setOnKeyPressed(keyEvent ->
         {
-            //Bordes de las palas
+            //Límites de las palas, respecto a las paredes superior e inferior
             if (racquet1.getY() < -100 ){
                 racquet1.setY(-100);
             } else if (racquet1.getY() > 160) {
@@ -53,23 +56,41 @@ public class HelloController {
             }
         }));
 
-
-
         //Animacion bola
         Timeline animationBall = new Timeline(
                 new KeyFrame(Duration.seconds(0.017), (ActionEvent ae) -> {
-                    ball.setCenterX(centro);
+
+                    ball.setCenterX(centroX);
+                    ball.setCenterY(centroY);
+
+                    //Rebote de la pelota en las palas
                     Shape colisionI = Shape.intersect(ball, racquet1);
                     Shape colisionD = Shape.intersect(ball,racquet2);
                     boolean colisionIzquierda = colisionI.getBoundsInLocal().isEmpty();
                     boolean colisionDerecha = colisionD.getBoundsInLocal().isEmpty();
 
+                    //Dirección de la bola en X
                     if (colisionIzquierda == false){
-                        velBola = 3;
+                        velBolaX = 3;
                     } else if (colisionDerecha == false){
-                        velBola = -3;
+                        velBolaX = -3;
                     }
-                    centro += velBola;
+                    //Dirección de la bola en Y, rebote en los bordes superiores
+                    if (ball.getCenterY() < -180){
+                        velBolaY = 1;
+                    } else if (ball.getCenterY() > 200) {
+                        velBolaY = -1;
+                    }
+                    //Si sobrepasa los extremos horizontales, reseteamos su posición
+                    if (ball.getCenterX() > 450){
+                        centroX = 0;
+                        centroY = 0;
+                    } else if (ball.getCenterX() < -450) {
+                        centroX = 0;
+                        centroY = 0;
+                    }
+                    centroY += velBolaY;
+                    centroX += velBolaX;
                 })
         );
         animationBall.setCycleCount(Timeline.INDEFINITE);
