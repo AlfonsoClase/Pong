@@ -25,9 +25,21 @@ public class HelloController {
     @FXML
     public void initialize() {
 
+
         ball.sceneProperty().addListener((observableValue, scene, t1) -> t1.setOnKeyPressed(keyEvent ->
         {
+            //Bordes de las palas
+            if (racquet1.getY() < -100 ){
+                racquet1.setY(-100);
+            } else if (racquet1.getY() > 160) {
+                racquet1.setY(160);
+            } else if (racquet2.getY() < -100 ){
+                racquet2.setY(-100);
+            } else if (racquet2.getY() > 160) {
+                racquet2.setY(160);
+            }
 
+            //Controles pala
             if (keyEvent.getCode() == KeyCode.UP) {
                 racquet2.setY(racquet2.getY() - 10);
             } else if (keyEvent.getCode() == KeyCode.DOWN) {
@@ -39,6 +51,9 @@ public class HelloController {
             }
         }));
 
+
+
+        //Animacion bola
         Timeline animationBall = new Timeline(
                 new KeyFrame(Duration.seconds(0.017), (ActionEvent ae) -> {
                     ball.setCenterX(centro);
